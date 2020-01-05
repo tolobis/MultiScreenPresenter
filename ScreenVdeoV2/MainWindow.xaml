@@ -1,0 +1,80 @@
+﻿<Window x:Class="ScreenVdeoV2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScreenVdeoV2"
+        xmlns:l="clr-namespace:ScreenVdeoV2.Converter"
+        mc:Ignorable="d"
+        x:Name="Window"
+        Title="Presantation" Height="{Binding HeightMainWindow,Mode=TwoWay}" Width="{Binding WidthMainWindow,Mode=TwoWay}">
+    <Grid Margin="0,0,0,-1">
+        <Grid.InputBindings>
+            <KeyBinding Key="Right" Command="{Binding KeyRightCommand}"/>
+            <KeyBinding Key="PageDown" Command="{Binding KeyRightCommand}"/>
+        </Grid.InputBindings>
+        <Grid.Resources>
+            <l:EnumVisibility x:Key="BooleanConverter"/>
+        </Grid.Resources>
+        <StackPanel Orientation="Vertical" Margin="0,0,0,0">
+            <Menu Margin="0,0,-0.4,-16.2">
+                <MenuItem Header="Datei" >
+                    <MenuItem Header="Projekt speichern" Command="{Binding ButtonDateiSpeichern}"/>
+                    <MenuItem Header="Projekt Laden" Command="{Binding ButtonDateiLaden}"/>
+                </MenuItem>
+
+            </Menu>
+            <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
+                <Label Content="Höhe"/>
+                <TextBox Text="{Binding PresentationViewModelProp.Height}" Width="50" VerticalAlignment="Center"/>
+                <Label Content="Breite"/>
+                <TextBox Text="{Binding PresentationViewModelProp.Width}" Width="50" VerticalAlignment="Center"/>
+                <Label Content="Links Offset"/>
+                <TextBox Text="{Binding PresentationViewModelProp.Left}" Width="50" VerticalAlignment="Center"/>
+                <Label Content="Oben Offset"/>
+                <TextBox Text="{Binding PresentationViewModelProp.Top}" Width="50" VerticalAlignment="Center"/>
+                <Button Content="Breite auf alle Elemente Anwenden" Command="{Binding ButtonBreiteAnwenden}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <Button Content="Höhe auf alle Elemente Anwenden" Command="{Binding ButtonHoeheAnwenden}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </StackPanel>
+            <ListBox ItemsSource="{Binding ListBoxItems}" HorizontalAlignment="Left" Width="{Binding WidthListBox, Mode=TwoWay}" Height="{Binding HeightListBox,Mode=TwoWay}" VerticalAlignment="Top" Margin="10,10,0,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel  Orientation="Horizontal" Background="{Binding Background}">
+                            <StackPanel.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding ListElementDoubleClick}"/>
+                                <KeyBinding Key="PageDown" Command="{Binding KeyRightCommand}"/>
+                            </StackPanel.InputBindings>
+                            <Label Content="Name:"/>
+                            <Label Content="{Binding Name}" />
+                            <Label Content="Typ:"/>
+                            <Label Content="{Binding Typ}"/>
+                            <Label Content="Art:"/>
+                            <Label Content="{Binding Art}"/>
+                            <Label Content=" ScrollOfset:"/>
+                            <TextBox Text="{Binding ScrollOffset}"/>
+                            <CheckBox Content=" Loop" IsChecked="{Binding Loop}" Visibility="{Binding Art, Converter={StaticResource BooleanConverter}, ConverterParameter={x:Static local:FileArt.Video}}" Margin="10,5,0,0"/>
+                            <CheckBox Content=" Spiegeln" IsChecked="{Binding Spiegeln}" Margin="10,5,0,0"/>
+                            <Label Content="Breite Bild/Video:"/>
+                            <TextBox Text="{Binding Widht}"/>
+                            <Label Content="Höhe Bild/Video:"/>
+                            <TextBox Text="{Binding Height}"/>
+                            <Label Content=" Verzeichnis:" Margin="10,0,0,0"/>
+                            <Label Content="{Binding Filename}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Button Command="{Binding ButtonNew}" Content="New Item"  Width="75" Margin="15,0,0,0"/>
+                <Button Command="{Binding ButtonStop}" Content="Stop" Width="75" Margin="15,0,0,0"/>
+                <Button Command="{Binding ButtonNext}" Content="Next" Width="75" Margin="15,0,0,0"/>
+                <Button Command="{Binding ButtonStart}" Content="Start" Width="75" Margin="15,0,0,0"/>
+                <Button Command="{Binding ButtonBlack}" Content="FadeOut" Width="75" Margin="15,0,0,0"/>
+                <Button Command="{Binding ButtonFadeIn}" Content="FadeIn" Width="75" Margin="15,0,0,0"/>
+            </StackPanel>
+
+
+        </StackPanel>
+    </Grid>
+
+</Window>

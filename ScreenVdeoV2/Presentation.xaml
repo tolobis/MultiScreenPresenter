@@ -1,0 +1,87 @@
+﻿<Window x:Class="ScreenVdeoV2.Presentation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScreenVdeoV2"
+        mc:Ignorable="d"
+        xmlns:l ="clr-namespace:ScreenVdeoV2.Converter"
+        Title="Presentation" Height="{Binding Height, Mode=TwoWay}" Width="{Binding Width, Mode=TwoWay}" Left="{Binding Left, Mode=TwoWay}" Top="{Binding Top, Mode=TwoWay}" Background="Black" ResizeMode="NoResize" WindowStyle="None" >
+    <Grid>
+        <Grid.InputBindings>
+            <KeyBinding Key="PageDown" Command="{Binding KeyRightCommand}"/>
+        </Grid.InputBindings>
+        <Grid.Resources>
+            <l:EnumVisibility x:Key="BooleanConverter"/>
+            <l:BoolSpiegelnConverter x:Key="BooleanSpiegelnConverter"/>
+            <l:BoolVisibility x:Key="BooleanTovisibility"/>
+        </Grid.Resources>
+
+        <ScrollViewer x:Name="scrollBackElement"
+                      VerticalScrollBarVisibility="Hidden"
+                      Height="{Binding BackElement.Height}"
+                      Width="{Binding BackElement.Widht}"
+                      Opacity="{Binding OpacitiyBackElement}">
+            <Grid>
+                <MediaElement
+                    x:Name="MediaElementBack"
+                    Source="{Binding BackElement.FilenameVideo}" 
+                    Visibility="{Binding BackElement.Art, Converter={StaticResource BooleanConverter}, ConverterParameter={x:Static local:FileArt.Video}}" 
+                    RenderTransformOrigin="0.5,0.5"
+                    Stretch="UniformToFill"
+                    Volume="0">
+                    <MediaElement.RenderTransform>
+                        <ScaleTransform ScaleX="{Binding BackElement.Spiegeln, Converter={StaticResource BooleanSpiegelnConverter}}"/>
+                    </MediaElement.RenderTransform>
+                </MediaElement>
+                
+                <Image
+                    Source="{Binding BackElement.FilenameBild}" 
+                    Visibility="{Binding BackElement.Art, Converter={StaticResource BooleanConverter}, ConverterParameter={x:Static local:FileArt.Bild}}" 
+                    RenderTransformOrigin="0.5,0.5"
+                    Stretch="UniformToFill">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding BackElement.Spiegeln, Converter={StaticResource BooleanSpiegelnConverter}}"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                </Grid>
+            </ScrollViewer>
+
+
+        <ScrollViewer x:Name="scrollFrontElement"
+                      VerticalScrollBarVisibility="Hidden"
+                      Height="{Binding FrontElement.Height}"
+                      Width="{Binding FrontElement.Widht}"
+                      Opacity="{Binding OpacitiyFrontElement}"
+                      Visibility="{Binding FrontElement.IsVisible, Converter={StaticResource BooleanTovisibility}}">
+            <Grid>
+                <MediaElement
+                    x:Name="MediElementFront"
+                        Source="{Binding FrontElement.FilenameVideo}" 
+                        Visibility="{Binding FrontElement.Art, Converter={StaticResource BooleanConverter}, ConverterParameter={x:Static local:FileArt.Video}}" 
+                        RenderTransformOrigin="0.5,0.5"
+                        Stretch="UniformToFill"
+                        Volume="0" 
+                        UnloadedBehavior="Manual">
+                        <MediaElement.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding FrontElement.Spiegeln, Converter={StaticResource BooleanSpiegelnConverter}}"/>
+                        </MediaElement.RenderTransform>
+                </MediaElement>
+
+                <Image
+                    Visibility="{Binding FrontElement.Art, Converter={StaticResource BooleanConverter}, ConverterParameter={x:Static local:FileArt.Bild}}" 
+                    RenderTransformOrigin="0.5,0.5"
+                    Source="{Binding FrontElement.FilenameBild}"
+                    Stretch="UniformToFill">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding FrontElement.Spiegeln, Converter={StaticResource BooleanSpiegelnConverter}}"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Window>
